@@ -8,6 +8,18 @@ let isPredicting = false;
 async function loadMobilenet() {
   const mobilenet = await tf.loadLayersModel('https://storage.googleapis.com/tfjs-models/tfjs/mobilenet_v1_0.25_224/model.json');
   const layer = mobilenet.getLayer('conv_pw_13_relu');
+  
+  //tfvis.show.modelSummary({name: 'Model Architecture'}, mobilenet);
+	// conv_pw_13	[batch,7,7,256]	65,536	true
+	// conv_pw_13_bn	[batch,7,7,256]	1,024	true
+	// conv_pw_13_relu	[batch,7,7,256]	0	true
+	// global_average_pooling2d_1	[batch,256]	0	true
+	// reshape_1	[batch,1,1,256]	0	true
+	// dropout	[batch,1,1,256]	0	true
+	// conv_preds	[batch,1,1,1000]	257,000	true
+	// act_softmax	[batch,1,1,1000]	0	true
+	// reshape_2	[batch,1000]	0	true
+
   return tf.model({inputs: mobilenet.inputs, outputs: layer.output});
 }
 
